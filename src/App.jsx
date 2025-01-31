@@ -24,7 +24,13 @@ function App() {
   useEffect(() => {
     if (query === "") {
       setError("No se puede buscar una película vacía");
+      return;
     }
+    if (query.match(/^d+$/)) {
+      setError("No se puede buscar una película con un número");
+      return;
+    }
+    setError(null);
   }, [query]);
 
   const handleSubmit = (event) => {
@@ -48,8 +54,8 @@ function App() {
             placeholder="Avengers,Star Wars, The Matrix ..."
           />
           <button type="submit">Buscar</button>
-          {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </header>
       <main>
         <Movies movies={movies} />
