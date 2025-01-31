@@ -27,7 +27,7 @@ function App() {
       return;
     }
     if (query.match(/^d+$/)) {
-      setError("No se puede buscar una película con un número");
+      setError("No se puede buscar una película con un numero");
       return;
     }
     setError(null);
