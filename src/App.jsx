@@ -5,6 +5,8 @@ import { Movies } from "./components/Movies";
 
 function App() {
   const [users, setUsers] = new useState();
+  const [query, setQuery] = new useState("");
+  const [error, setError] = new useState(null);
   const { movies } = useMovies();
   const inputRef = useRef();
 
@@ -19,11 +21,18 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    if (query === "") {
+      setError("No se puede buscar una película vacía");
+    }
+  }, [query]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const field = new window.FormData(event.target);
     const query = field.get("query");
     console.log(query);
+    setQuery(query);
     /*const inputEl = inputRef.current;
     const value = inputEl.value;*/
   };
@@ -39,6 +48,7 @@ function App() {
             placeholder="Avengers,Star Wars, The Matrix ..."
           />
           <button type="submit">Buscar</button>
+          {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
       </header>
       <main>
