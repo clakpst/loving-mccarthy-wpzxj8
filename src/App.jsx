@@ -31,7 +31,7 @@ function App() {
   const [query, setQuery] = new useState("");
   const { search, updateSearch, error } = useSearch();
 
-  const { movies } = useMovies();
+  const { movies, getMovies } = useMovies({ search });
 
   const handleChange = (event) => {
     updateSearch(event.target.value);
@@ -39,6 +39,7 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    getMovies();
     /*const field = new window.FormData(event.target);
     const query = field.get("query");
     console.log(query);
