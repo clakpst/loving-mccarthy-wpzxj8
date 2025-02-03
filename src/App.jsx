@@ -6,9 +6,14 @@ import { Movies } from "./components/Movies";
 function useSearch() {
   const [search, updateSearch] = useState("");
   const [error, setError] = new useState(null);
+  const isFirstInput = useRef(true);
 
   useEffect(() => {
-    if (search === "") {
+    if (isFirstInput.current) {
+      isFirstInput.current = search === "";
+      return;
+    }
+    if (search === "" && !isFirstInput.current) {
       setError("No se puede buscar una película vacía");
       return;
     }
