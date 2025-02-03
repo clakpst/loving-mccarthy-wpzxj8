@@ -3,25 +3,33 @@ import "./App.css";
 import { useMovies } from "./hooks/useMovies";
 import { Movies } from "./components/Movies";
 
-function App() {
-  const [query, setQuery] = new useState("");
+function useSearch() {
+  const [search, updateSearch] = useState("");
   const [error, setError] = new useState(null);
-  const { movies } = useMovies();
 
   useEffect(() => {
-    if (query === "") {
+    if (search === "") {
       setError("No se puede buscar una película vacía");
       return;
     }
-    if (query.match(/^d+$/)) {
+    if (search.match(/^d+$/)) {
       setError("No se puede buscar una película con un numero");
       return;
     }
     setError(null);
-  }, [query]);
+  }, [search]);
 
-  handleChange = (event) => {
-    setQuery(event.target.value);
+  return { search, updateSearch, error };
+}
+
+function App() {
+  const [query, setQuery] = new useState("");
+  const { search, updateSearch, error } = useSearch();
+
+  const { movies } = useMovies();
+
+  const handleChange = (event) => {
+    updateSearch(event.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -42,7 +50,7 @@ function App() {
           <input
             name="query"
             onChange={handleChange}
-            value={query}
+            value={search}
             placeholder="Avengers,Star Wars, The Matrix ..."
           />
           <button type="submit">Buscar</button>
