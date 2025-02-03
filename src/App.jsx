@@ -4,22 +4,9 @@ import { useMovies } from "./hooks/useMovies";
 import { Movies } from "./components/Movies";
 
 function App() {
-  const [users, setUsers] = new useState();
   const [query, setQuery] = new useState("");
   const [error, setError] = new useState(null);
   const { movies } = useMovies();
-  const inputRef = useRef();
-
-  useEffect(() => {
-    fetch("https://randomuser.me/api?results=100")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   useEffect(() => {
     if (query === "") {
@@ -33,9 +20,13 @@ function App() {
     setError(null);
   }, [query]);
 
+  handleChange = (event) => {
+    setQuery(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const field = new window.FormData(event.target);
+    /*const field = new window.FormData(event.target);
     const query = field.get("query");
     console.log(query);
     setQuery(query);
@@ -49,8 +40,9 @@ function App() {
         <h1>Buscador de películas</h1>
         <form className="form" onSubmit={handleSubmit}>
           <input
-            ref={inputRef}
             name="query"
+            onChange={handleChange}
+            value={query}
             placeholder="Avengers,Star Wars, The Matrix ..."
           />
           <button type="submit">Buscar</button>
