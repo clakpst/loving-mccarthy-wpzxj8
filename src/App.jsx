@@ -31,7 +31,7 @@ function App() {
   const [query, setQuery] = new useState("");
   const { search, updateSearch, error } = useSearch();
 
-  const { movies, getMovies } = useMovies({ search });
+  const { movies, getMovies , loading } = useMovies({ search });
 
   const handleChange = (event) => {
     updateSearch(event.target.value);
@@ -64,7 +64,9 @@ function App() {
         {error && <p style={{ color: "red" }}>{error}</p>}
       </header>
       <main>
+        {loading ? <p>cargando</p>:
         <Movies movies={movies} />
+       }
       </main>
     </div>
   );
