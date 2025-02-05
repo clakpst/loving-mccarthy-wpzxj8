@@ -1,5 +1,5 @@
 import { searchMovies } from "../services/movies";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 
 export function useMovies({ search }) {
   const [movies, setMovies] = useState([]);
@@ -8,6 +8,10 @@ export function useMovies({ search }) {
     const newMovies = await searchMovies({ search });
     setMovies(newMovies);
   };
+
+  useEffect(()=>{
+    getMovies()
+  },[search]) 
 
   return { movies, getMovies };
 }
